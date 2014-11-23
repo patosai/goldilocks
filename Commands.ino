@@ -18,7 +18,7 @@ void openWindow(float inchesToOpen)
   smartthing.shieldSetLED(1, 1, 1);
   delay(200);
   smartthing.shieldSetLED(1, 1, 0);
-  delay(200);
+  delay(400);
   smartthing.shieldSetLED(0, 0, 0);
   
   smartthing.send("Shield received OPEN");        // send message to cloud
@@ -27,7 +27,7 @@ void openWindow(float inchesToOpen)
   if (inchesToOpen > 0)
   {
     servo.write(SERVO_SPEED);
-    delay(findDelay(inchesToOpen));
+    //delay(findDelay(inchesToOpen));
     servo.write(90);
     
     g_inchesMoved += inchesToOpen;
@@ -46,6 +46,7 @@ void closeWindow(float inchesToClose)
   smartthing.send("Shield received CLOSE");       // send message to cloud
   print("Closing");
   
+  // inches is guaranteed to be positive
   // if we try to close more window than is currently open
   if (inchesToClose > g_inchesMoved && g_inchesMoved > 0)
   {
@@ -56,13 +57,13 @@ void closeWindow(float inchesToClose)
      g_inchesMoved = 0;
   }
   // for everything else
-  else if (inchesToClose > 0)
+  else if (g_inchesMoved > 0)
   {
     servo.write(90 - SERVO_SPEED);
     delay(findDelay(inchesToClose));
     servo.write(90);
     
-    g_inchesMoved = 0;
+    g_inchesMoved -= inchesToClose;
   }
   
   print("Window has been closed");
