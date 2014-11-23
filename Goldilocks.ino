@@ -34,7 +34,7 @@ void loop()
 
 void openWindow()
 {
-  digitalWrite(ledPin, HIGH);  // turn LED on
+  //digitalWrite(ledPin, HIGH);  // turn LED on
   smartthing.shieldSetLED(0, 0, 1);
   smartthing.send("on");        // send message to cloud
   Serial.println("on");
@@ -42,7 +42,7 @@ void openWindow()
 
 void closeWindow()
 {
-  digitalWrite(ledPin, LOW);   // turn LED off
+  //digitalWrite(ledPin, LOW);   // turn LED off
   smartthing.shieldSetLED(0, 0, 0);
   smartthing.send("off");       // send message to cloud
   Serial.println("off");
