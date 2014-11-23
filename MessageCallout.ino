@@ -21,4 +21,12 @@ void messageCallout(String message)
       closeWindow(abs(inchesToMove)); 
     }
   }
+  else if (message.equals("open"))
+  {
+    openWindow(WINDOW_LENGTH); 
+  }
+  else if (message.equals("close"))
+  {
+     closeWindow(WINDOW_LENGTH); 
+  }
 }

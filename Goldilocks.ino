@@ -16,7 +16,7 @@ const int PIN_THING_RX = 3;
 const int PIN_THING_TX = 2;
 
 const int SERVO_PIN = 5;      // pin to connect servo to
-const int SERVO_SPEED = 140;  // 90 (no movement) - 180 (super fast)
+const int SERVO_SPEED = 180;  // 90 (no movement) - 180 (super fast)
 
 const float GEAR_CIRC = 1.0;        // in inches
 const float WINDOW_LENGTH = 24.0;   // in inches

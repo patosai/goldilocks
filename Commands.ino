@@ -15,7 +15,9 @@ void openWindow(float inchesToOpen)
   if (inchesToOpen > 0 && (inchesToOpen + g_inchesMoved) <= WINDOW_LENGTH)
   {
     servo.write(SERVO_SPEED);
+    smartthing.shieldSetLED(1,1,1);
     delay(findDelay(WINDOW_LENGTH - g_inchesMoved));
+    smartthing.shieldSetLED(0,0,0);
     servo.write(90);
     
     g_inchesMoved = WINDOW_LENGTH;
@@ -48,7 +50,9 @@ void closeWindow(float inchesToClose)
   if (inchesToClose > g_inchesMoved && g_inchesMoved > 0)
   {
      servo.write(90 - SERVO_SPEED);
+     smartthing.shieldSetLED(1,1,1);
      delay(findDelay(g_inchesMoved));
+     smartthing.shieldSetLED(0,0,0);
      servo.write(90);
      
      g_inchesMoved = 0;
@@ -57,7 +61,9 @@ void closeWindow(float inchesToClose)
   else if (g_inchesMoved > 0)
   {
     servo.write(90 - SERVO_SPEED);
+    smartthing.shieldSetLED(1,1,1);
     delay(findDelay(inchesToClose));
+    smartthing.shieldSetLED(0,0,0);
     servo.write(90);
     
     g_inchesMoved -= inchesToClose;
@@ -65,4 +71,3 @@ void closeWindow(float inchesToClose)
   
   print("Window has been closed");
 }
-
