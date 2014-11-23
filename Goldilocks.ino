@@ -15,8 +15,8 @@
 const int PIN_THING_RX = 3;
 const int PIN_THING_TX = 2;
 
-const int SERVO_PIN = 5;      // pin to connect servo to
-const int SERVO_SPEED = 180;  // 90 (no movement) - 180 (super fast)
+const int SERVO_PIN = 11;      // pin to connect servo to
+const int SERVO_SPEED = 100;  // 90 (no movement) - 180 (super fast)
 
 const float GEAR_CIRC = 1.0;        // in inches
 const float WINDOW_LENGTH = 24.0;   // in inches
@@ -40,7 +40,8 @@ void setup()
 {
   g_inchesMoved = 0.0;
 
-  servo.attach(SERVO_PIN);
+  pinMode(SERVO_PIN, OUTPUT);
+  //servo.attach(SERVO_PIN);
   smartthing.shieldSetLED(0,0,0);
 
   if (enableDebug)

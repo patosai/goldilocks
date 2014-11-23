@@ -14,6 +14,7 @@ void openWindow(float inchesToOpen)
   // if someone tries to open the window more than it can
   if (inchesToOpen > 0 && (inchesToOpen + g_inchesMoved) <= WINDOW_LENGTH)
   {
+    servo.attach(SERVO_PIN);
     servo.write(SERVO_SPEED);
     if (enableDebug) smartthing.shieldSetLED(0,1,0);
     
@@ -30,6 +31,7 @@ void openWindow(float inchesToOpen)
     
     if (enableDebug)smartthing.shieldSetLED(0,0,0);
     servo.write(90);
+    servo.detach();
     
   }
   
@@ -44,24 +46,27 @@ void closeWindow(float inchesToClose)
   
   // inches is guaranteed to be positive
   // if we try to close more window than is currently open
-  if (inchesToClose > g_inchesMoved && g_inchesMoved > 0)
+  if (inchesToClose > 0)
   {
-     servo.write(90 - SERVO_SPEED);
-     if (enableDebug) smartthing.shieldSetLED(1,0,0);
+    servo.detach();
+    servo.attach(SERVO_PIN);
+    servo.write(180 - SERVO_SPEED);
+    if (enableDebug) smartthing.shieldSetLED(1,0,0);
      
-     if (inchesToClose > g_inchesMoved)
-     {
-       delay(findDelay(g_inchesMoved));
-       g_inchesMoved = 0; 
-     }
-     else
-     {
-       delay(findDelay(inchesToClose));
-       g_inchesMoved -= inchesToClose; 
-     }
+    if (inchesToClose > g_inchesMoved)
+    {
+      delay(findDelay(g_inchesMoved));
+      g_inchesMoved = 0; 
+    }
+    else
+    {
+      delay(findDelay(inchesToClose));
+      g_inchesMoved -= inchesToClose; 
+    }
      
-     if (enableDebug) smartthing.shieldSetLED(0,0,0);
-     servo.write(90);
+    if (enableDebug) smartthing.shieldSetLED(0,0,0);
+    servo.write(90);
+    servo.detach();
 
   }
 
