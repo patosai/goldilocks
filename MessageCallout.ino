@@ -10,13 +10,13 @@ void messageCallout(String message)
     smartthing.shieldSetLED(0,1,0); 
 
     float inchesToMove = message.toFloat();
-    if (abs(inchesToMove) > 0)
+    if (inchesToMove > 0)
     {
       openWindow(inchesToMove); 
     }
     else
     {
-      closeWindow(inchesToMove); 
+      closeWindow(abs(inchesToMove)); 
     }
   }
 }
