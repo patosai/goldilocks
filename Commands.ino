@@ -2,7 +2,7 @@
 int findDelay(float inches)
 {
     float temp = abs( (inches / GEAR_CIRC) * 360 / (SERVO_SPEED-90));
-    return floor(temp * 1000);
+    return floor(temp * 10);
 }
 
 // Opens the window a specific number of degrees
@@ -15,21 +15,22 @@ void openWindow(float inchesToOpen)
   if (inchesToOpen > 0 && (inchesToOpen + g_inchesMoved) <= WINDOW_LENGTH)
   {
     servo.write(SERVO_SPEED);
-    smartthing.shieldSetLED(1,1,1);
-    delay(findDelay(WINDOW_LENGTH - g_inchesMoved));
-    smartthing.shieldSetLED(0,0,0);
+    if (enableDebug) smartthing.shieldSetLED(0,1,0);
+    
+    if (inchesToOpen + g_inchesMoved >= WINDOW_LENGTH)
+    {
+      delay(findDelay(WINDOW_LENGTH - g_inchesMoved));
+      g_inchesMoved = WINDOW_LENGTH;
+    }
+    else
+    {
+      delay(findDelay(inchesToOpen));
+      g_inchesMoved += WINDOW_LENGTH;
+    }
+    
+    if (enableDebug)smartthing.shieldSetLED(0,0,0);
     servo.write(90);
     
-    g_inchesMoved = WINDOW_LENGTH;
-  }
-  // otherwise...
-  else if (inchesToOpen > 0)
-  {
-    servo.write(SERVO_SPEED);
-    delay(findDelay(inchesToOpen));
-    servo.write(90);
-    
-    g_inchesMoved += inchesToOpen;
   }
   
   print("Window has been opened");
@@ -38,10 +39,6 @@ void openWindow(float inchesToOpen)
 // Closes the window, a number of degrees
 void closeWindow(float inchesToClose)
 {  
-  smartthing.shieldSetLED(1, 1, 1);
-  delay(50);
-  smartthing.shieldSetLED(0,0,0);
-  
   smartthing.send("Shield received CLOSE");       // send message to cloud
   print("Closing");
   
@@ -50,24 +47,25 @@ void closeWindow(float inchesToClose)
   if (inchesToClose > g_inchesMoved && g_inchesMoved > 0)
   {
      servo.write(90 - SERVO_SPEED);
-     smartthing.shieldSetLED(1,1,1);
+     if (enableDebug) smartthing.shieldSetLED(1,0,0);
+     
+     if (inchesToClose > g_inchesMoved)
+     {
+       delay(findDelay(g_inchesMoved));
+       g_inchesMoved = 0; 
+     }
+     else
+     {
+       delay(findDelay(inchesToClose));
+       g_inchesMoved -= inchesToClose; 
+     }
+     
      delay(findDelay(g_inchesMoved));
-     smartthing.shieldSetLED(0,0,0);
+     if (enableDebug) smartthing.shieldSetLED(0,0,0);
      servo.write(90);
      
      g_inchesMoved = 0;
   }
-  // for everything else
-  else if (g_inchesMoved > 0)
-  {
-    servo.write(90 - SERVO_SPEED);
-    smartthing.shieldSetLED(1,1,1);
-    delay(findDelay(inchesToClose));
-    smartthing.shieldSetLED(0,0,0);
-    servo.write(90);
-    
-    g_inchesMoved -= inchesToClose;
-  }
-  
+
   print("Window has been closed");
 }
