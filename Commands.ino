@@ -7,20 +7,7 @@ int findDelay(float inches)
 
 // Opens the window a specific number of degrees
 void openWindow(float inchesToOpen)
-{ 
-  // Debug lights
-  smartthing.shieldSetLED(0, 0, 1);
-  delay(200);
-  smartthing.shieldSetLED(0, 1, 0);
-  delay(200);
-  smartthing.shieldSetLED(1, 0, 0);
-  delay(200);
-  smartthing.shieldSetLED(1, 1, 1);
-  delay(200);
-  smartthing.shieldSetLED(1, 1, 0);
-  delay(400);
-  smartthing.shieldSetLED(0, 0, 0);
-  
+{   
   smartthing.send("Shield received OPEN");        // send message to cloud
   print("Opening");
 
