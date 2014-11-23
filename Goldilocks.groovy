@@ -13,6 +13,8 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  */
+import groovy.sql.Sql
+ 
 definition(
     name: "Goldilocks",
     namespace: "",
@@ -58,7 +60,8 @@ def initialize() {
 
 // TODO: implement event handlers
 def temperatureHandler(evt) {
-	//new temperature reported
+    
+    //new temperature reported
     log.debug "Updated Temperature"
 	if(evt.doubleValue > (targetTemperature + temperatureTolerance)) {
     	log.debug "Opening window"
@@ -74,8 +77,12 @@ def temperatureHandler(evt) {
         state.currentPosition = state.currentPosition + state.moveLength
         log.debug state.moveLength.toString()
         //windowController.test()
+      
         windowController.message(state.moveLength.toString())
         //Too hot, opening window
+        
+        //sendSQL(state.moveLength);
+
     }
     if(evt.doubleValue < (targetTemperature - temperatureTolerance)) {
     	log.debug "Closing window"
@@ -89,7 +96,25 @@ def temperatureHandler(evt) {
         if(state.moveLength + state.currentPosition < state.minPosition)
         	state.moveLength = state.minPosition - state.currentPosition
         state.currentPosition = state.currentPosition + state.moveLength
-        windowController.message(state.moveLength)
+        log.debug state.moveLength.toString()
+        windowController.message(state.moveLength.toString())
         //Too cold, closing window
+        
+        //sendSQL(state.moveLength);
+
+    }
+	if(evt.doubleValue <= targetTemperature + temperatureTolerance && evt.doubleValue >= targetTemperature - temperatureTolerance)
+    {
+    	state.moveLength = 0
+        log.debug state.moveLength.toString()
+        windowController.message(state.moveLength.toString())
     }
 }
+
+
+def sendSQL(double distance) {
+ 	def sql = Sql.newInstance('jdbc:mysql://aiquvf0orh.database.windows.net:1433/data', 'patosai', '1Q!12345', 'org.hsqldb.jdbc.JDBCDriver')  
+   	sql.execute "insert into data (id, widthOpen, temp, ambientTemp) values (1, $distance, 1,1)"
+
+}
+

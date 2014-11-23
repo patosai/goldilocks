@@ -11,8 +11,18 @@
  *   close
  */
  
- 
+import groovy.sql.Sql
+
 metadata {
+    // Automatically generated. Make future change here.
+    definition (name: "Open/Close Shield", author: "Goldilocks, Austin, Patrick, and Richard") {
+        capability "Switch"
+
+        command "open"
+        command "close"
+        command "message"
+    }
+
     definition (name: "Open/Close Shield", author: "Goldilocks, Austin, Patrick, and Richard") {
             capability "Switch"
             command "open"
@@ -38,7 +48,6 @@ metadata {
         reply "raw 0x0 { 00 00 0a 0a 6f 66 66 }": "catchall: 0104 0000 01 01 0040 00 0A21 00 00 0000 0A 00 0A6F6666"
     }
 }
- 
 
 def on() {
     zigbee.smartShield(text: "on").format()
@@ -60,9 +69,17 @@ def close() {
 
 def message(float distance) {
     log.debug "Adjust Window"
-    zigbee.smartShield(text: distance.toString()).format()
+    //zigbee.smartShield(text: distance.toString()).format()
+    zigbee.smartShield(text: String.format("%f",distance)).format()
+}
+
+def message(String distance) {
+    log.debug "Adjust Window"
+    zigbee.smartShield(text: distance).format()
 }
  
 def parse(String description) {
     log.debug "Parsing '${description}'" 
 }
+
+
