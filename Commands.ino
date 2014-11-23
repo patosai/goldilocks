@@ -1,7 +1,7 @@
 // Turns inches into a set ms delay, depending on servo speed and gear circumference
 int findDelay(float inches)
 {
-    float temp = abs( (inches / GEAR_CIRC) * 360 / SERVO_SPEED);
+    float temp = abs( (inches / GEAR_CIRC) * 360 / (SERVO_SPEED-90));
     return floor(temp * 1000);
 }
 
