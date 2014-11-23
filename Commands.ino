@@ -24,10 +24,20 @@ void openWindow(float inchesToOpen)
   smartthing.send("Shield received OPEN");        // send message to cloud
   print("Opening");
 
-  if (inchesToOpen > 0)
+  // if someone tries to open the window more than it can
+  if (inchesToOpen > 0 && (inchesToOpen + g_inchesMoved) <= WINDOW_LENGTH)
   {
     servo.write(SERVO_SPEED);
-    //delay(findDelay(inchesToOpen));
+    delay(findDelay(WINDOW_LENGTH - g_inchesMoved));
+    servo.write(90);
+    
+    g_inchesMoved = WINDOW_LENGTH;
+  }
+  // otherwise...
+  else if (inchesToOpen > 0)
+  {
+    servo.write(SERVO_SPEED);
+    delay(findDelay(inchesToOpen));
     servo.write(90);
     
     g_inchesMoved += inchesToOpen;
