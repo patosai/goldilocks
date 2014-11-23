@@ -5,6 +5,9 @@ WildHacks 2014, Northwestern University
 
 Modulate room temperature with nature's help!
 
+
+About
+----------
 This project was created as a response to our dorm's heating services.
 Heaters are left on, leaving dorms hot while cool air circulates outside.
 
