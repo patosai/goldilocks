@@ -22,7 +22,7 @@ void openWindow(float inchesToOpen)
   smartthing.shieldSetLED(0, 0, 0);
   
   smartthing.send("Shield received OPEN");        // send message to cloud
-  print("Opening " + int(inchesToOpen));
+  print("Opening");
 
   if (inchesToOpen > 0)
   {
@@ -44,7 +44,7 @@ void closeWindow(float inchesToClose)
   smartthing.shieldSetLED(0,0,0);
   
   smartthing.send("Shield received CLOSE");       // send message to cloud
-  print("Closing " + int(inchesToClose));
+  print("Closing");
   
   // if we try to close more window than is currently open
   if (inchesToClose > g_inchesMoved && g_inchesMoved > 0)
