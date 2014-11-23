@@ -60,11 +60,9 @@ void closeWindow(float inchesToClose)
        g_inchesMoved -= inchesToClose; 
      }
      
-     delay(findDelay(g_inchesMoved));
      if (enableDebug) smartthing.shieldSetLED(0,0,0);
      servo.write(90);
-     
-     g_inchesMoved = 0;
+
   }
 
   print("Window has been closed");
