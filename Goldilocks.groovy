@@ -13,8 +13,7 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  */
-import groovy.sql.Sql
- 
+
 definition(
     name: "Goldilocks",
     namespace: "",
@@ -110,11 +109,3 @@ def temperatureHandler(evt) {
         windowController.message(state.moveLength.toString())
     }
 }
-
-
-def sendSQL(double distance) {
- 	def sql = Sql.newInstance('jdbc:mysql://aiquvf0orh.database.windows.net:1433/data', 'patosai', '1Q!12345', 'org.hsqldb.jdbc.JDBCDriver')  
-   	sql.execute "insert into data (id, widthOpen, temp, ambientTemp) values (1, $distance, 1,1)"
-
-}
-
